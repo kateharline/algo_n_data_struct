@@ -65,6 +65,7 @@ public class MinHeap<T extends Comparable<T>> implements PriorityQueue<T> {
 		//   Recall in class we reduced insert to decrease
 		//
 		// FIXME
+		this.decrease(size++);
 		//
 		return ans;
 	}
@@ -98,7 +99,7 @@ public class MinHeap<T extends Comparable<T>> implements PriorityQueue<T> {
 	void decrease(int loc) {
 		//
 		// As described in lecture
-		//
+		//moveItem(loc, to)
 		
 	}
 	

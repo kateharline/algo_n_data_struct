@@ -34,7 +34,7 @@ public class ProbC extends QuietAlgorithm {
 		while (j <= n) {
 			int k = 0;
 			while (k < j) {
-				//
+				// n-1 times
 				// Here
 				ticker.tick();
 				//				

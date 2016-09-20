@@ -31,13 +31,13 @@ public class ProbA extends QuietAlgorithm {
 	@Override
 	public void run() {
 		int j = 1;
-		while (j < n) {
+		while (j < n) {//j depends on n
 			int k = n;
 			//
 			// Here
-			ticker.tick();
+			ticker.tick();///executes n times
 			//				
-			while (k > j) {
+			while (k > j) {//same number of times as
 				k = k - 1;
 			}
 			j = j + 1;

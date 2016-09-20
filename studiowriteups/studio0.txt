@@ -1,4 +1,4 @@
-Your TA's name:
+Your TA's name: Elliott Battle
 
 
 
@@ -6,8 +6,8 @@ Students in your studio group:
 
     Name        Student ID (begins with a 4)
 	
-1.
-2.
+1.Kate Harline   428944
+2.Meenakshi Bhatia  424620
 3.
 4.
 5.
@@ -17,6 +17,7 @@ Below each question, type in your short, to-the-point answers.
 
 Question A1: 
 	What do you see in both plots? 
+	
 	Are there any differences between the two?
 	What could account for those differences?
 	

@@ -37,7 +37,7 @@ public class ProbB extends QuietAlgorithm {
 				//
 				// Here
 				ticker.tick();
-				//				
+				//		executes n^2 times		
 				k = k - 1;
 			}
 			j = j + 1;
