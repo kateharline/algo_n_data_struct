@@ -8,7 +8,7 @@ Students in your studio group:
 
     Name        Student ID (begins with a 4)
 	
-1.
+1.Kate Harline	428944
 2.
 3.
 4.
@@ -19,14 +19,22 @@ Students in your studio group:
 Part A
 
 What are three data types that can serve as T?
+integers, calendars, times
 
 Which class did you pick to examine its compareTo method?
+calendar
 
 How did its compareTo method impose a natural order on that class's instances?
+compares the calendar objects by time 
+"returns a value of 0 if the times are equal, a value less than zero if the time in this calendar is less than another and greater than 0 if the inverse is true
 
 Part B
 
 How does compareTo work?  Does it always return either -1, 0, or +1?
+this is not true, a negative value is returned if a is less than b
+0 is returned if a=b (true)
+a value >0 returned if a>b
+
 
 Part C
 
@@ -35,20 +43,26 @@ Given a LinkedList<T> of size n, what is the asymptotic complexity, worst-case,
 for performing each of the following operations?
 
   1)  Appending to the end of that list  addLast(..)
+  theta(1), constant
   
   2)  Prepending to the beginning of that list   addFirst(...)
+	theta(1), constant
   
   3)  Inserting an element in the middle of the list  add(size/2, .....)
+  n, linear
   
 And for your implementation of a PriorityQueue using the Unordered List, 
 given n elements already in the queue, what is the asymptotic complexity, 
 worst-case for performing each of the following operations?
   
   4)  extractMin
+  n, linear
   
   5)  insert
+  constant time
   
   6)  isEmpty
+  theta(1), constant
   
   
 Part D
@@ -56,23 +70,29 @@ Part D
 From your implementation of OrderedArray, what is the asymptotic complexity, worst-case, for performing each of the following operations?
 
   1)  Adding an element at the end of the array
-  
+  linear (n)
   
   2)  Inserting an element at the beginning of the array
-  
+  constant 
   
   3)  Inserting an element in the middle of the list
+  linear (n) 
 
 And for your implementation of a PriorityQueue using the Ordered Array, 
 given n elements already in the queue, what is the asymptotic complexity, 
 worst-case for performing each of the following operations?
   
   4)  extractMin
+  constant
   
   5)  insert
+  linear (n)
   
   6)  isEmpty
+  constant
   
  
  Are there situations when you would want to use the OrderedArray or the UnorderedList instead of
  the binary heap described in class?   Explain please.
+
+ in general, probably not because this is less efficient
