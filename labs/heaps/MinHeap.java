@@ -64,8 +64,8 @@ public class MinHeap<T extends Comparable<T>> implements PriorityQueue<T> {
 		// You have to now put ans into the heap array
 		//   Recall in class we reduced insert to decrease
 		//
-		// FIXME
-		this.decrease(size++);
+		// use one of the decrease commands
+	
 		//
 		return ans;
 	}
@@ -98,11 +98,27 @@ public class MinHeap<T extends Comparable<T>> implements PriorityQueue<T> {
 	 */
 	void decrease(int loc) {
 		//
+		//use the math in the array 2i or 2i+1 to compare
+		//make sure to change the d.loc
 		// As described in lecture
 		//moveItem(loc, to)
-		
+		//taking this to mean loc is the current location
+		//this isn't doing all of the sorting, that comes later with heapify
+		//just need to set the new value of the decreaser (thing)
+		int to = 0;//find a way to find out where this would be
+		array[0].moveItem(loc, to);
 	}
 	
+	/**
+	 * the method described by above 
+	 * @param from when the decreaser is
+	 * @param to what the decreaser becomes
+	 */
+	public void moveItem(int from, int to){
+		array[to] = array[from];
+		array[to].loc = to; 
+		
+	}
 	/**
 	 * Described in lecture, this method will return a minimum element from
 	 *    the heap.  The hole that is created is handled as described in
