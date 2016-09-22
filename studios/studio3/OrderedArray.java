@@ -24,8 +24,8 @@ public class OrderedArray<T extends Comparable<T>> implements PriorityQueue<T> {
 //		}
 		for(int i=0; i<size; i++){
 			if(thing.compareTo(array[i]) < 0){
-				size++;
-				for(int j=size; j>i; j--){
+				++size;
+				for(int j=size; j>i; --j){
 					array[j] = array[j-1];
 					
 				}
