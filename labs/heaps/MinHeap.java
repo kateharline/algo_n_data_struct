@@ -70,6 +70,7 @@ public class MinHeap<T extends Comparable<T>> implements PriorityQueue<T> {
 		//make sure that the value is less than its parent, it has experienced a "decrease" from infinity
 		this.decrease(++size);
 		//
+		++size;
 		return ans;
 	}
 	
