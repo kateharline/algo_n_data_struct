@@ -32,7 +32,7 @@ public class MinHeap<T extends Comparable<T>> implements PriorityQueue<T> {
 	//
 	// Here begin the methods described in lecture
 	//
-	
+
 	/**
 	 * Insert a new thing into the heap.  As discussed in lecture, it
 	 *   belongs at the end of objects already in the array.  You can avoid
@@ -64,11 +64,14 @@ public class MinHeap<T extends Comparable<T>> implements PriorityQueue<T> {
 		// You have to now put ans into the heap array
 		//   Recall in class we reduced insert to decrease
 		//
-		// use one of the decrease commands
-	
+		// add the new decreaser to the array
+		array[++size] = ans;
+		//make sure that the value is less than its parent, it has experienced a "decrease" from infinity
+		this.decrease(++size);
 		//
 		return ans;
 	}
+	
 
 	/**
 	 * This method responds to an element in the heap decreasing in
@@ -97,28 +100,38 @@ public class MinHeap<T extends Comparable<T>> implements PriorityQueue<T> {
 	 *     decreased in value
 	 */
 	void decrease(int loc) {
-		//
-		//use the math in the array 2i or 2i+1 to compare
-		//make sure to change the d.loc
-		// As described in lecture
-		//moveItem(loc, to)
-		//taking this to mean loc is the current location
-		//this isn't doing all of the sorting, that comes later with heapify
-		//just need to set the new value of the decreaser (thing)
-		int to = 0;//find a way to find out where this would be
-		array[0].moveItem(loc, to);
+		int i = loc; //index in the array how I will move through the array
+		T child = array[loc].getValue();
+		T parent = array[loc/2].getValue();
+		while(i>1 && parent.compareTo(child) >0){//while moving to the top of the heap and the parent is greater than
+			//the child (min heap violated)
+			//switch the two 	//change the .loc of each
+			array[loc] = new Decreaser<T>(parent, this, loc);
+			array[loc/2] = new Decreaser<T>(child, this, loc/2);
+
+			//set i to the new loc of the new parent
+			i = loc/2;
+
+			//recalculate child and parent
+			child= array[loc].getValue();
+			parent = array[loc/2].getValue();
+		}
+
+
+
+	}
+
+	/**
+	 * suggested method from java doc, simplifies the process of 
+	 * moving tree elements around
+	 * @param to where the tree element is to be placed
+	 * @param from the current location of the element in the tree
+	 */
+	public void moveItem(int to, int from){
+		array[to] = array[from];
+		array[to].loc = to;
 	}
 	
-	/**
-	 * the method described by above 
-	 * @param from when the decreaser is
-	 * @param to what the decreaser becomes
-	 */
-	public void moveItem(int from, int to){
-		array[to] = array[from];
-		array[to].loc = to; 
-		
-	}
 	/**
 	 * Described in lecture, this method will return a minimum element from
 	 *    the heap.  The hole that is created is handled as described in
@@ -127,16 +140,28 @@ public class MinHeap<T extends Comparable<T>> implements PriorityQueue<T> {
 	 *    maintained at the root node (index 1 into the array).
 	 */
 	public T extractMin() {
-		T ans = array[1].getValue();
-		//
-		// There is effectively a hole at the root, at location 1 now.
-		//    Fix up the heap as described in lecture.
-		//    Be sure to store null in an array slot if it is no longer
-		//      part of the active heap
-		//
-		// FIXME
-		//
-		return ans;
+		//base case, there is nothing in the heap
+		if(size<1){
+			throw new IllegalArgumentException("Heap has nothing to extract");
+		}
+		else{
+			T ans = array[1].getValue();
+			//
+			// There is effectively a hole at the root, at location 1 now.
+			//    Fix up the heap as described in lecture.
+			//    Be sure to store null in an array slot if it is no longer
+			//      part of the active heap
+			//
+			// move the last element to the top of the heap
+			array[1] = array[size];
+			//update the size of the heap (it's now missing an element)
+			--size;
+			//call heapify to allow the root to float down if its not the least element
+			heapify(1);
+			//return the min value (stored above)
+			return ans;
+		}
+
 	}
 
 	/**
@@ -150,9 +175,53 @@ public class MinHeap<T extends Comparable<T>> implements PriorityQueue<T> {
 		//
 		// As described in lecture
 		//  FIXME
-		//
-	}
+		//where you are in the heap;
+		int index =1;
+		//values of the l (loc=2*index) and right child (loc=2*index+1)
+		T parent = array[index].getValue();
+		T lChild = array[2*index].getValue();
+		T rChild = array[2*index+1].getValue();
+		//boolean to keep track of which child won smallest
+		boolean r = false;
+		T smallest =null; //place holder to keep track of the smallest element in the comparison
+		//if the left child is an element in the heap and it's less than the parent
+		if(2*index < size && lChild.compareTo(parent)<0){
+			smallest = lChild;
+		}
+		else{
+			smallest = parent;
+		}
+		//then compare the smallest to the right child
+		if(rChild.compareTo(smallest)<0){
+			smallest = rChild;
+			r = true;
+		}
 	
+		//if the parent is found to not be the smallest element and the smallest is the, left child
+		//swap the parent and the smallest element
+		if(smallest.compareTo(parent)!=0 && r == false){
+			Decreaser<T> holding = new Decreaser<T>(smallest, this, index*2);
+			array[index*2] = array[index];
+			array[index*2].loc = index*2;
+			array[index] = holding;
+			array[index].loc = index;
+			//recursively call heapify
+			this.heapify(2*index);
+		}
+		//if the parent is found to not be the smallest element and the smallest is the, left child
+		//swap the parent and the smallest element
+		if(smallest.compareTo(parent)!=0 && r == true){
+			Decreaser<T> holding = new Decreaser<T>(smallest, this, index*2+1);
+			array[index*2+1] = array[index];
+			array[index*2+1].loc = index*2+1;
+			array[index] = holding;
+			array[index].loc = index;
+			//recursively call heapify
+			this.heapify(2*index+1);
+		}
+		
+	}
+
 	/**
 	 * Does the heap contain anything currently?
 	 * I implemented this for you.  Really, no need to thank me!
@@ -160,11 +229,11 @@ public class MinHeap<T extends Comparable<T>> implements PriorityQueue<T> {
 	public boolean isEmpty() {
 		return size == 0;
 	}
-	
+
 	//
 	// End of methods described in lecture
 	//
-	
+
 	//
 	// The methods that follow are necessary for the debugging
 	//   infrastructure.
@@ -194,11 +263,11 @@ public class MinHeap<T extends Comparable<T>> implements PriorityQueue<T> {
 	public int size() {
 		return this.size;
 	}
-	
+
 	public int capacity() {
 		return this.array.length-1;
 	}
-	
+
 
 	/**
 	 * The commented out code shows you the contents of the array,
@@ -206,11 +275,11 @@ public class MinHeap<T extends Comparable<T>> implements PriorityQueue<T> {
 	 *   output.
 	 */
 	public String toString() {
-//		String ans = "";
-//		for (int i=1; i <= size; ++i) {
-//			ans = ans + i + " " + array[i] + "\n";
-//		}
-//		return ans;
+		//		String ans = "";
+		//		for (int i=1; i <= size; ++i) {
+		//			ans = ans + i + " " + array[i] + "\n";
+		//		}
+		//		return ans;
 		return HeapToStrings.toTree(this);
 	}
 
