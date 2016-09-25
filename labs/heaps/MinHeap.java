@@ -110,11 +110,14 @@ public class MinHeap<T extends Comparable<T>> implements PriorityQueue<T> {
 			ticker.tick();
 			//the child (min heap violated)
 			//switch the two 	//change the .loc of each
-			array[loc] = new Decreaser<T>(parent, this, loc);
-			array[loc/2] = new Decreaser<T>(child, this, loc/2);
+			Decreaser<T> holding = new Decreaser<T>(child, this, i);
+			array[i] = array[i/2];
+			array[i].loc = i/2;
+			array[i/2] = holding;
+			array[i/2].loc = i/2;
 
 			//set i to the new loc of the new parent
-			i = loc/2;
+			i = i/2;
 
 			//recalculate child and parent
 			child= array[loc].getValue();
