@@ -192,12 +192,26 @@ public class MinHeap<T extends Comparable<T>> implements PriorityQueue<T> {
 		// As described in lecture
 		//  FIXME
 		ticker.tick();
-		if(size<3){
+		//where you are in the heap;
+		int index =where;
+		//base cases to avoid null pointer, small array
+		if(size<2){
 			return;
 		}
-		else{
-			//where you are in the heap;
-			int index =1;
+		else if(size<3){
+			T parent = array[1].getValue();
+			T child = array[2].getValue();
+			if(child.compareTo(parent)<0){
+				Decreaser<T> holding = new Decreaser<T>(child, this, 2);
+				array[2] = array[1];
+				array[2].loc = 2;
+				array[1] = holding;
+				array[1].loc = 1;
+			}
+		}
+		
+		else if(size > 2*index){
+			
 			//values of the l (loc=2*index) and right child (loc=2*index+1)
 			T parent = array[index].getValue();
 			T lChild = array[2*index].getValue();
