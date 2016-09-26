@@ -209,9 +209,20 @@ public class MinHeap<T extends Comparable<T>> implements PriorityQueue<T> {
 				array[1].loc = 1;
 			}
 		}
-		
+		else if(size == 2*index){
+			T parent = array[index].getValue();
+			T child = array[size].getValue();
+			if(child.compareTo(parent)<0){
+				Decreaser<T> holding = new Decreaser<T>(child, this, size);
+				array[size] = array[index];
+				array[size].loc = size;
+				array[index] = holding;
+				array[index].loc = index;
+
+			}
+		}
 		else if(size > 2*index){
-			
+
 			//values of the l (loc=2*index) and right child (loc=2*index+1)
 			T parent = array[index].getValue();
 			T lChild = array[2*index].getValue();
