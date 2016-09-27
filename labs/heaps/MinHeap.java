@@ -59,7 +59,7 @@ public class MinHeap<T extends Comparable<T>> implements PriorityQueue<T> {
 		//    array, the .loc field of the Decreaser must change to reflect
 		//    that.
 		//
-		ticker.tick();
+		
 		Decreaser<T> ans = new Decreaser<T>(thing, this, ++size);
 		//
 		// You have to now put ans into the heap array
@@ -67,10 +67,12 @@ public class MinHeap<T extends Comparable<T>> implements PriorityQueue<T> {
 		//
 
 		// add the new decreaser to the array
+		ticker.tick();
 		array[size] = ans;
 		//make sure that the value is less than its parent, it has experienced a "decrease" from infinity
 		//		++size;
 		if(size==1){
+			ticker.tick();
 			array[1].loc = 1;
 			return ans;
 		}
@@ -110,18 +112,20 @@ public class MinHeap<T extends Comparable<T>> implements PriorityQueue<T> {
 	 *     decreased in value
 	 */
 	void decrease(int loc) {
-		ticker.tick();
+		
 		if(size<1){
+			ticker.tick();
 			return;
 		}
 		else{
-			
+			ticker.tick();
 			for(int i=loc; i>1; i=i/2){
 				T child = array[i].getValue();
 				T parent = array[i/2].getValue();
 				//if parent is bigger than the child
 				if(parent.compareTo(child) >0){
 					//switch the two 	//change the .loc of each
+					ticker.tick();
 					Decreaser<T> holding = new Decreaser<T>(child, this, i);
 					array[i] = array[i/2];
 					array[i].loc = i;
@@ -137,6 +141,8 @@ public class MinHeap<T extends Comparable<T>> implements PriorityQueue<T> {
 	/**
 	 * suggested method from java doc, simplifies the process of 
 	 * moving tree elements around
+	 * didn't end up using because of need to put parent or child in holding decreaser, then
+	 * move
 	 * @param to where the tree element is to be placed
 	 * @param from the current location of the element in the tree
 	 */
@@ -154,11 +160,13 @@ public class MinHeap<T extends Comparable<T>> implements PriorityQueue<T> {
 	 */
 	public T extractMin() {
 		//base case, there is nothing in the heap
-		ticker.tick();
+		
 		if(size<1){
+			ticker.tick();
 			throw new IllegalArgumentException("Heap has nothing to extract");
 		}
 		else{
+			ticker.tick();
 			T ans = array[1].getValue();
 			//
 			// There is effectively a hole at the root, at location 1 now.
@@ -167,12 +175,14 @@ public class MinHeap<T extends Comparable<T>> implements PriorityQueue<T> {
 			//      part of the active heap
 			//
 			// move the last element to the top of the heap
+			ticker.tick();
 			array[1] = array[size];
 			array[1].loc = 1;
 			array[size] = null;
 			//update the size of the heap (it's now missing an element)
 			--size;
 			//call heapify to allow the root to float down if its not the least element
+			ticker.tick();
 			heapify(1);
 			//return the min value (stored above)
 			return ans;
@@ -191,18 +201,22 @@ public class MinHeap<T extends Comparable<T>> implements PriorityQueue<T> {
 		//
 		// As described in lecture
 		//  FIXME
-		ticker.tick();
+		
 		//where you are in the heap;
 		int index =where;
 		//base cases to avoid null pointer, small array
 		if(size<2){
+			ticker.tick();
 			return;
+			
 		}
 		else if(size<3){
+			ticker.tick();
 			T parent = array[1].getValue();
 			T child = array[2].getValue();
 			if(child.compareTo(parent)<0){
 				Decreaser<T> holding = new Decreaser<T>(child, this, 2);
+				ticker.tick();
 				array[2] = array[1];
 				array[2].loc = 2;
 				array[1] = holding;
@@ -211,10 +225,12 @@ public class MinHeap<T extends Comparable<T>> implements PriorityQueue<T> {
 		}
 		//you're at the end with only left child (avoid null pointer)
 		else if(size == 2*index){
+			ticker.tick();
 			T parent = array[index].getValue();
 			T child = array[size].getValue();
 			if(child.compareTo(parent)<0){
 				Decreaser<T> holding = new Decreaser<T>(child, this, size);
+				ticker.tick();
 				array[size] = array[index];
 				array[size].loc = size;
 				array[index] = holding;
@@ -223,7 +239,7 @@ public class MinHeap<T extends Comparable<T>> implements PriorityQueue<T> {
 			}
 		}
 		else if(size > 2*index){
-
+			ticker.tick();
 			//values of the l (loc=2*index) and right child (loc=2*index+1)
 			T parent = array[index].getValue();
 			T lChild = array[2*index].getValue();
@@ -232,28 +248,32 @@ public class MinHeap<T extends Comparable<T>> implements PriorityQueue<T> {
 			boolean r = false;
 			T smallest =null; //place holder to keep track of the smallest element in the comparison
 			//if the left child is an element in the heap and it's less than the parent
-			ticker.tick();
+		
 			if(2*index < size && lChild.compareTo(parent)<0){
+				ticker.tick();
 				smallest = lChild;
 			}
 			else{
+				ticker.tick();
 				smallest = parent;
 			}
 			//then compare the smallest to the right child
 			if(rChild.compareTo(smallest)<0){
+				ticker.tick();
 				smallest = rChild;
 				r = true;
 			}
-			ticker.tick();
 			//if the parent is found to not be the smallest element and the smallest is the, left child
 			//swap the parent and the smallest element
 			if(smallest.compareTo(parent)!=0 && r == false){
 				Decreaser<T> holding = new Decreaser<T>(smallest, this, index*2);
+				ticker.tick();
 				array[index*2] = array[index];
 				array[index*2].loc = index*2;
 				array[index] = holding;
 				array[index].loc = index;
 				//recursively call heapify
+				ticker.tick();
 				this.heapify(index*2);
 				this.heapify(index*2+1);
 			}
@@ -261,10 +281,12 @@ public class MinHeap<T extends Comparable<T>> implements PriorityQueue<T> {
 			//swap the parent and the smallest element
 			if(smallest.compareTo(parent)!=0 && r == true){
 				Decreaser<T> holding = new Decreaser<T>(smallest, this, index*2+1);
+				ticker.tick();
 				array[index*2+1] = array[index];
 				array[index*2+1].loc = index*2+1;
 				array[index] = holding;
 				array[index].loc = index;
+				ticker.tick();
 				this.heapify(index*2);
 				this.heapify(index*2+1);
 			}
@@ -273,6 +295,7 @@ public class MinHeap<T extends Comparable<T>> implements PriorityQueue<T> {
 			//if you are at the bottom of the heap, heapify again starting at the top
 			//otherwise, continue down the tree
 			if(array[index*2]==null || array[index*2+1]==null){
+				ticker.tick();
 				this.heapify(1);
 			}
 			//need a way to keep calling heapify until I'm sure I'm through the pyramid
@@ -287,6 +310,7 @@ public class MinHeap<T extends Comparable<T>> implements PriorityQueue<T> {
 	 * I implemented this for you.  Really, no need to thank me!
 	 */
 	public boolean isEmpty() {
+		ticker.tick();
 		return size == 0;
 	}
 
