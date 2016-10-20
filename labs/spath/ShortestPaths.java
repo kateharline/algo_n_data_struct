@@ -86,26 +86,27 @@ public class ShortestPaths {
 		//take the first node out, and save it
 		VertexAndDist firstVertex = pq.extractMin();
 		//look at its children
-		Iterable<Edge> predecessors = firstVertex.getVertex().edgesTo();
-		for (Edge e : predecessors){
+		Iterable<Edge> successors = firstVertex.getVertex().edgesTo();
+		for (Edge e : successors){
 			//look up decreaser of the vertex to which start is connected
-			Decreaser<VertexAndDist> pred = map.get(e.to);
+			Decreaser<VertexAndDist> suc = map.get(e.to);
 			//decrease it's value its weight from start
-			pred.decrease(pred.getValue().sameVertexNewDistance(map.get(e.to).getValue().getDistance()));
+			suc.decrease(suc.getValue().sameVertexNewDistance(map.get(e.to).getValue().getDistance()));
+			map.putIfAbsent(e.from, suc);
 		}
 		//until everything is extracted
 		while(!pq.isEmpty()){
 			VertexAndDist nextVertex = pq.extractMin();
-			Iterable<Edge> nextPreds = nextVertex.getVertex().edgesTo();
-			for (Edge e : nextPreds){
+			Iterable<Edge> nextSucs = nextVertex.getVertex().edgesTo();
+			for (Edge e : nextSucs){
 				//look up decreaser of the vertex to which start is connected
-				Decreaser<VertexAndDist> pred = map.get(e.to);
-				pred.decrease(pred.getValue().sameVertexNewDistance(map.get(e.to).getValue().getDistance()));
+				Decreaser<VertexAndDist> succ = map.get(e.to);
+				succ.decrease(succ.getValue().sameVertexNewDistance(map.get(e.to).getValue().getDistance()));
 				//relax node if necessary
 				int relax = map.get(e.from).getValue().getDistance() + weights.get(e);
 				if( map.get(e.to).getValue().getDistance() > relax){
-					pred.decrease(pred.getValue().sameVertexNewDistance(relax));
-					map.putIfAbsent(e.from, pred);
+					succ.decrease(succ.getValue().sameVertexNewDistance(relax));
+					map.putIfAbsent(e.from, succ);
 				}
 			}
 		}
