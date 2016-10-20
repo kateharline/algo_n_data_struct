@@ -101,9 +101,7 @@ public class ShortestPaths {
 			ticker.tick(3);
 			map.replace(e.from, suc);
 			toEdge.replace(startVertex, e);
-			System.out.println(toEdge.get(e.from));
 		}
-		System.out.println("line one");
 		//until everything is extracted
 		while(!pq.isEmpty()){
 			ticker.tick();
@@ -124,9 +122,6 @@ public class ShortestPaths {
 					ticker.tick(2);
 				}
 				ticker.tick();
-				
-				System.out.println(toEdge.get(e.from));
-				System.out.println("line two");
 			}
 		}
 		
@@ -161,24 +156,17 @@ public class ShortestPaths {
 	 */
 	public LinkedList<Edge> returnPath(Vertex endVertex) {
 		LinkedList<Edge> path = new LinkedList<Edge>();
-//		path.addFirst(toEdge.get(endVertex));
-		//run as long as there are vertexes to look at
-//		Iterable<Edge> endTos = endVertex.edgesTo();
-//		for(Edge e : endTos){
-//			path.addFirst(toEdge.get(e.from));
-//		}
-//		path.addFirst(toEdge.get(endVertex));
+		
 		Iterable<Vertex> vertexInG = g.vertices();
 		for(Vertex v : vertexInG){
-			System.out.println("line three");
-			System.out.println(toEdge.get(v));
-			
-			path.addFirst(toEdge.get(endVertex));
-			toEdge.remove(endVertex);
-			endVertex = v;
-//			path.addFirst(toEdge.get(v));
+//			System.out.println("line three");
+//			System.out.println(toEdge.get(startVertex));
+			System.out.println(v  + "--->"+ toEdge.get(v));
+//			System.out.println(toEdge.get(endVertex));
+//			endVertex = toEdge.get(key);
+			path.addFirst(toEdge.get(v));
 		}
-		path.addFirst(toEdge.get(startVertex));
+//		path.addFirst(toEdge.get(startVertex));
 		return path;
 	}
 	
