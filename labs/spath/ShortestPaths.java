@@ -105,12 +105,14 @@ public class ShortestPaths {
 				//look up decreaser of the vertex to which start is connected p.649
 				Decreaser<VertexAndDist> succ = map.get(e.to);
 				succ.decrease(succ.getValue().sameVertexNewDistance(map.get(e.to).getValue().getDistance()));
+				
 				//relax node if necessary
 				int relax = map.get(e.from).getValue().getDistance() + weights.get(e);
 				if( map.get(e.to).getValue().getDistance() > relax){
 					succ.decrease(succ.getValue().sameVertexNewDistance(relax));
 					map.putIfAbsent(e.from, succ);
 				}
+				toEdge.put(succ.getValue().getVertex(), e);
 			}
 		}
 		
@@ -145,7 +147,11 @@ public class ShortestPaths {
 	 */
 	public LinkedList<Edge> returnPath(Vertex endVertex) {
 		LinkedList<Edge> path = new LinkedList<Edge>();
-
+		//run as long as there are vertexes to look at
+		Iterable<Vertex> vertexInG = g.vertices();
+		for(Vertex v : vertexInG){
+			path.addFirst(toEdge.get(v));
+		}
 		//
 		// FIXME
 		//
