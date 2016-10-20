@@ -64,6 +64,7 @@ public class ShortestPaths {
 		//
 		
 		for (Vertex v : g.vertices()) {
+			ticker.tick();
 			toEdge.put(v, null);
 			VertexAndDist a = new VertexAndDist(v, inf);
 			Decreaser<VertexAndDist> d = pq.insert(a);
@@ -76,11 +77,13 @@ public class ShortestPaths {
 		//   itself to 0.
 		// Note how we look up the decreaser using the map...
 		// 
+		ticker.tick();
 		Decreaser<VertexAndDist> startVertDist = map.get(startVertex);
 		//
 		// and then decrease it using the Decreaser handle
 		
 		//
+		ticker.tick();
 		startVertDist.decrease(startVertDist.getValue().sameVertexNewDistance(0));
 //		toEdge.put(startVertDist.getValue().getVertex(), null);
 		//all distances are from the start node
@@ -90,18 +93,23 @@ public class ShortestPaths {
 		//look at its children
 		Iterable<Edge> successors = firstVertex.getVertex().edgesTo();
 		for (Edge e : successors){
+			ticker.tick();
 			//look up decreaser of the vertex to which start is connected
 			Decreaser<VertexAndDist> suc = map.get(e.to);
 			//decrease it's value its weight from start
 			suc.decrease(suc.getValue().sameVertexNewDistance(map.get(e.to).getValue().getDistance()));
-			map.putIfAbsent(e.from, suc);
-			toEdge.put(startVertDist.getValue().getVertex(), e);
+			ticker.tick(3);
+			map.replace(e.from, suc);
+			toEdge.replace(startVertex, e);
+			
 		}
 		//until everything is extracted
 		while(!pq.isEmpty()){
+			ticker.tick();
 			VertexAndDist nextVertex = pq.extractMin();
 			Iterable<Edge> nextSucs = nextVertex.getVertex().edgesTo();
 			for (Edge e : nextSucs){
+				ticker.tick();
 				//look up decreaser of the vertex to which start is connected p.649
 				Decreaser<VertexAndDist> succ = map.get(e.to);
 				succ.decrease(succ.getValue().sameVertexNewDistance(map.get(e.to).getValue().getDistance()));
@@ -110,9 +118,11 @@ public class ShortestPaths {
 				int relax = map.get(e.from).getValue().getDistance() + weights.get(e);
 				if( map.get(e.to).getValue().getDistance() > relax){
 					succ.decrease(succ.getValue().sameVertexNewDistance(relax));
-					map.putIfAbsent(e.from, succ);
+					map.replace(e.from, succ);
+					ticker.tick(2);
 				}
-				toEdge.put(succ.getValue().getVertex(), e);
+				ticker.tick();
+				toEdge.replace(e.to, e);
 			}
 		}
 		
@@ -147,14 +157,14 @@ public class ShortestPaths {
 	 */
 	public LinkedList<Edge> returnPath(Vertex endVertex) {
 		LinkedList<Edge> path = new LinkedList<Edge>();
+		path.addFirst(toEdge.get(endVertex));
 		//run as long as there are vertexes to look at
 		Iterable<Vertex> vertexInG = g.vertices();
 		for(Vertex v : vertexInG){
 			path.addFirst(toEdge.get(v));
 		}
-		//
-		// FIXME
-		//
+		
+		
 
 		return path;
 	}
