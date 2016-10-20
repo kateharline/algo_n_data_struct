@@ -1,6 +1,7 @@
 package spath;
 
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Map;
 
@@ -34,7 +35,7 @@ public class ShortestPaths {
 	private Map<Edge, Integer> weights;
 	private Vertex startVertex;
 	private final DirectedGraph g;
-	
+
 	
 	//
 	// constructor
@@ -46,6 +47,8 @@ public class ShortestPaths {
 		this.weights     = weights;
 		this.startVertex = startVertex;
 		this.g           = g;
+	
+		
 	}
 	
 	//
@@ -76,19 +79,56 @@ public class ShortestPaths {
 		Decreaser<VertexAndDist> startVertDist = map.get(startVertex);
 		//
 		// and then decrease it using the Decreaser handle
+		
 		//
 		startVertDist.decrease(startVertDist.getValue().sameVertexNewDistance(0));
+		//all distances are from the start node
+		//take the first node out, and save it
+		VertexAndDist firstVertex = pq.extractMin();
+		//look at its children
+		Iterable<Edge> predecessors = firstVertex.getVertex().edgesTo();
+		for (Edge e : predecessors){
+			//look up decreaser of the vertex to which start is connected
+			Decreaser<VertexAndDist> pred = map.get(e.to);
+			//decrease it's value its weight from start
+			pred.decrease(pred.getValue().sameVertexNewDistance(map.get(e.to).getValue().getDistance()));
+		}
+		//until everything is extracted
+		while(!pq.isEmpty()){
+			VertexAndDist nextVertex = pq.extractMin();
+			Iterable<Edge> nextPreds = nextVertex.getVertex().edgesTo();
+			for (Edge e : nextPreds){
+				//look up decreaser of the vertex to which start is connected
+				Decreaser<VertexAndDist> pred = map.get(e.to);
+				pred.decrease(pred.getValue().sameVertexNewDistance(map.get(e.to).getValue().getDistance()));
+				//relax node if necessary
+				int relax = map.get(e.from).getValue().getDistance() + weights.get(e);
+				if( map.get(e.to).getValue().getDistance() > relax){
+					pred.decrease(pred.getValue().sameVertexNewDistance(relax));
+					map.putIfAbsent(e.from, pred);
+				}
+			}
+		}
+		
+		//relax neighbors--they may need to update distance from start due to shorter path through extracted node
+		//relax(u, v, w) v.d is shortest path estimate, v.pred is v's predecessor
+		//if v.d > u.d + w(u,v)--weight from u to v
+			//v.d = u.d + w(u,v)
+			//v.pred = u
+		
+		//Dijkstra(G, w, s) 
+			//initialize single source
+			//S= empty set (where the values will be stored
+			//Q = G.vertexes
+			//while Q.not empty (check minheap)
+				//u = extractMin(Q)
+				//S = S u {u}, add vertex to the set
+				//for each vertex, relax it, update v.d and v.pred if you can
+			//
+		
 
-
-		//
-		// OK you take it from here
-		// Extract nodes from the pq heap
-		//   and act upon them as instructed in class and the text.
-		//
-		// FIXME
 	}
 
-	
 	/**
 	 * Return a List of Edges forming a shortest path from the
 	 *    startVertex to the specified endVertex.  Do this by tracing

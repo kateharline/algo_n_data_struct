@@ -35,6 +35,7 @@ public class GraphTester {
 			System.out.println("To vertex " + v);
 			for (Edge e : v.edgesTo()) {
 				System.out.println("   Edge " + e);
+				
 			}
 		}
 
