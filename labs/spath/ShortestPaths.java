@@ -140,7 +140,6 @@ public class ShortestPaths {
 				//S = S u {u}, add vertex to the set
 				//for each vertex, relax it, update v.d and v.pred if you can
 			//
-		
 
 	}
 
@@ -156,17 +155,30 @@ public class ShortestPaths {
 	 */
 	public LinkedList<Edge> returnPath(Vertex endVertex) {
 		LinkedList<Edge> path = new LinkedList<Edge>();
-		
-		Iterable<Vertex> vertexInG = g.vertices();
-		for(Vertex v : vertexInG){
-//			System.out.println("line three");
-//			System.out.println(toEdge.get(startVertex));
-			System.out.println(v  + "--->"+ toEdge.get(v));
-//			System.out.println(toEdge.get(endVertex));
-//			endVertex = toEdge.get(key);
-			path.addFirst(toEdge.get(v));
+		Iterable<Edge> edgesInG = g.edges();
+		for(Edge e : edgesInG){
+			System.out.println(e);
+			if(e.to == endVertex){
+				path.addFirst(toEdge.get(e.to));
+				path.addFirst(toEdge.get(e.from));
+//				toEdge.remove(endVertex);
+				endVertex = e.from;
+			}
+			else{
+				path.addFirst(toEdge.get(e.from));
+			}
+			
 		}
-//		path.addFirst(toEdge.get(startVertex));
+//		Iterable<Vertex> vertexInG = g.vertices();
+//		for(Vertex v : vertexInG){
+////			System.out.println("line three");
+////			System.out.println(toEdge.get(startVertex));
+//			System.out.println(v  + "--->"+ toEdge.get(v));
+////			System.out.println(toEdge.get(endVertex));
+////			endVertex = toEdge.get(key);
+//			path.addFirst(toEdge.get(v));
+//		}
+////		path.addFirst(toEdge.get(startVertex));
 		return path;
 	}
 	
