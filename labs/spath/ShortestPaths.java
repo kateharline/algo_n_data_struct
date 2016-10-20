@@ -82,9 +82,11 @@ public class ShortestPaths {
 		
 		//
 		startVertDist.decrease(startVertDist.getValue().sameVertexNewDistance(0));
+		
 		//all distances are from the start node
 		//take the first node out, and save it
 		VertexAndDist firstVertex = pq.extractMin();
+		
 		//look at its children
 		Iterable<Edge> successors = firstVertex.getVertex().edgesTo();
 		for (Edge e : successors){
@@ -93,13 +95,14 @@ public class ShortestPaths {
 			//decrease it's value its weight from start
 			suc.decrease(suc.getValue().sameVertexNewDistance(map.get(e.to).getValue().getDistance()));
 			map.putIfAbsent(e.from, suc);
+			toEdge.put(startVertDist.getValue().getVertex(), e);
 		}
 		//until everything is extracted
 		while(!pq.isEmpty()){
 			VertexAndDist nextVertex = pq.extractMin();
 			Iterable<Edge> nextSucs = nextVertex.getVertex().edgesTo();
 			for (Edge e : nextSucs){
-				//look up decreaser of the vertex to which start is connected
+				//look up decreaser of the vertex to which start is connected p.649
 				Decreaser<VertexAndDist> succ = map.get(e.to);
 				succ.decrease(succ.getValue().sameVertexNewDistance(map.get(e.to).getValue().getDistance()));
 				//relax node if necessary
