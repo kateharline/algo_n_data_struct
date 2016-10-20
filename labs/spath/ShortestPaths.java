@@ -82,7 +82,7 @@ public class ShortestPaths {
 		
 		//
 		startVertDist.decrease(startVertDist.getValue().sameVertexNewDistance(0));
-		
+//		toEdge.put(startVertDist.getValue().getVertex(), null);
 		//all distances are from the start node
 		//take the first node out, and save it
 		VertexAndDist firstVertex = pq.extractMin();
