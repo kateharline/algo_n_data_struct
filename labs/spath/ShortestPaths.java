@@ -158,28 +158,36 @@ public class ShortestPaths {
 		//add last vertex to the list first
 		path.addFirst(toEdge.get(endVertex));
 		
-		Iterable<Edge> edgesInG = g.edges();
-		Vertex end = new Vertex();
-		Vertex nextVertex = new Vertex();
+//		Vertex end = new Vertex();
 		//find the last vertex's pointer in toEdge
-		
-		for(Edge e : edgesInG){
-			if(e.to == endVertex){
-				path.addFirst(toEdge.get(e.from));
-				end = e.from;
+		Iterable<Edge> edgesInG = g.edges();
+		for(int i=0; i<toEdge.size()-1; i++){
+			for(Edge e : edgesInG){
+				if(e.to == endVertex){
+					path.addFirst(toEdge.get(e.from));
+					endVertex = e.from;
+				}
 			}
 		}
-		nextVertex = toEdge.get(end).from;
-		//add vertex before the last to the path
-		for(int i=0; i<toEdge.size(); i++){
-			System.out.println(toEdge.get(nextVertex));
-			
-			path.addFirst(toEdge.get(nextVertex));
-			
-			nextVertex = toEdge.get(nextVertex).from;
-			
-			
-		}
+//		for(Edge e : edgesInG){
+//			if(e.to == endVertex){
+//				path.addFirst(toEdge.get(e.from));
+//				end = e.from;
+//			}
+//		}
+//		for(Edge e : edgesInG){
+//			if(e.to == end){
+//				path.addFirst(toEdge.get(e.from));
+//				end = e.from;
+//			}
+//		}
+//		for(Edge e : edgesInG){
+//			if(e.to == end){
+//				path.addFirst(toEdge.get(e.from));
+//				end = e.from;
+//			}
+//		}
+
 //		System.out.println(toEdge.get(endVertex));
 //		
 
@@ -203,7 +211,7 @@ public class ShortestPaths {
 //			System.out.println(v  + "--->"+ toEdge.get(v));
 ////			System.out.println(toEdge.get(endVertex));
 ////			endVertex = toEdge.get(key);
-//			path.addFirst(toEdge.get(v));
+////			path.addFirst(toEdge.get(v));
 //		}
 ////		path.addFirst(toEdge.get(startVertex));
 		return path;
