@@ -88,37 +88,23 @@ public class ShortestPaths {
 //		toEdge.put(startVertDist.getValue().getVertex(), null);
 		//all distances are from the start node
 		//take the first node out, and save it
-		VertexAndDist firstVertex = pq.extractMin();
 		
-		//look at its children
-		Iterable<Edge> successors = firstVertex.getVertex().edgesFrom();
-		for (Edge e : successors){
-			ticker.tick();
-			//look up decreaser of the vertex to which start is connected
-			Decreaser<VertexAndDist> suc = map.get(e.to);
-			//decrease it's value its weight from start
-			suc.decrease(suc.getValue().sameVertexNewDistance(map.get(e.to).getValue().getDistance()));
-			ticker.tick(3);
-			map.replace(e.from, suc);
-			toEdge.replace(startVertex, e);
-		}
-		//until everything is extracted
 		while(!pq.isEmpty()){
 			ticker.tick();
-			VertexAndDist nextVertex = pq.extractMin();
-			Iterable<Edge> nextSucs = nextVertex.getVertex().edgesFrom();
+			VertexAndDist minVertex = pq.extractMin();
+			Iterable<Edge> nextSucs = minVertex.getVertex().edgesFrom();
 			for (Edge e : nextSucs){
-				toEdge.replace(e.from, e);
 				ticker.tick();
 				//look up decreaser of the vertex to which start is connected p.649
 				Decreaser<VertexAndDist> succ = map.get(e.to);
-				succ.decrease(succ.getValue().sameVertexNewDistance(map.get(e.to).getValue().getDistance()));
-				
+//				succ.decrease(succ.getValue().sameVertexNewDistance(map.get(e.to).getValue().getDistance()));
+//				
 				//relax node if necessary
-				int relax = map.get(e.from).getValue().getDistance() + weights.get(e);
-				if( map.get(e.to).getValue().getDistance() > relax){
+				int relax = minVertex.getDistance() + weights.get(e);
+				if( succ.getValue().getDistance() > relax){
 					succ.decrease(succ.getValue().sameVertexNewDistance(relax));
-					map.replace(e.from, succ);
+					toEdge.put(e.to, e);
+//					map.replace(e.to, relax);
 					ticker.tick(2);
 				}
 				ticker.tick();
@@ -156,64 +142,12 @@ public class ShortestPaths {
 	public LinkedList<Edge> returnPath(Vertex endVertex) {
 		LinkedList<Edge> path = new LinkedList<Edge>();
 		//add last vertex to the list first
-		path.addFirst(toEdge.get(endVertex));
-		
-//		Vertex end = new Vertex();
-		//find the last vertex's pointer in toEdge
-		Iterable<Edge> edgesInG = g.edges();
-		for(int i=0; i<toEdge.size()-1; i++){
-			for(Edge e : edgesInG){
-				if(e.to == endVertex){
-					path.addFirst(toEdge.get(e.from));
-					endVertex = e.from;
-				}
-			}
+		Vertex at = endVertex;
+		while (!at.equals(startVertex)) {
+			Edge edge = toEdge.get(at);
+			path.addFirst(edge);
+			at = edge.from;
 		}
-//		for(Edge e : edgesInG){
-//			if(e.to == endVertex){
-//				path.addFirst(toEdge.get(e.from));
-//				end = e.from;
-//			}
-//		}
-//		for(Edge e : edgesInG){
-//			if(e.to == end){
-//				path.addFirst(toEdge.get(e.from));
-//				end = e.from;
-//			}
-//		}
-//		for(Edge e : edgesInG){
-//			if(e.to == end){
-//				path.addFirst(toEdge.get(e.from));
-//				end = e.from;
-//			}
-//		}
-
-//		System.out.println(toEdge.get(endVertex));
-//		
-
-//		for(Edge e : edgesInG){
-//			System.out.println(e);
-//			if(e.to == endVertex){
-//				path.addFirst(toEdge.get(e.to));
-//				path.addFirst(toEdge.get(e.from));
-////				toEdge.remove(endVertex);
-//				endVertex = e.from;
-//			}
-//			else{
-//				path.addFirst(toEdge.get(e.from));
-//			}
-//			
-//		}
-//		Iterable<Vertex> vertexInG = g.vertices();
-//		for(Vertex v : vertexInG){
-////			System.out.println("line three");
-////			System.out.println(toEdge.get(startVertex));
-//			System.out.println(v  + "--->"+ toEdge.get(v));
-////			System.out.println(toEdge.get(endVertex));
-////			endVertex = toEdge.get(key);
-////			path.addFirst(toEdge.get(v));
-//		}
-////		path.addFirst(toEdge.get(startVertex));
 		return path;
 	}
 	
