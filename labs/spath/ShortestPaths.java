@@ -96,15 +96,13 @@ public class ShortestPaths {
 			for (Edge e : nextSucs){
 				ticker.tick();
 				//look up decreaser of the vertex to which start is connected p.649
-				Decreaser<VertexAndDist> succ = map.get(e.to);
-//				succ.decrease(succ.getValue().sameVertexNewDistance(map.get(e.to).getValue().getDistance()));
-//				
+				Decreaser<VertexAndDist> succ = map.get(e.to);	
 				//relax node if necessary
 				int relax = minVertex.getDistance() + weights.get(e);
 				if( succ.getValue().getDistance() > relax){
-					succ.decrease(succ.getValue().sameVertexNewDistance(relax));
+					VertexAndDist newVertDist = succ.getValue().sameVertexNewDistance(relax);
+					succ.decrease(newVertDist);
 					toEdge.put(e.to, e);
-//					map.replace(e.to, relax);
 					ticker.tick(2);
 				}
 				ticker.tick();
