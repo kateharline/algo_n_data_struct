@@ -26,18 +26,7 @@ public class KWayMergeSort {
 		
 		//if n=1 or n=0, "trivially sort"
 		if(n == 1){
-			//compare lowest nodes and merge
-			Integer[] ans = new Integer[n];
-			//eventually assign to array containing all inputs
-			for (int i=0; i < n; ++i) {
-				int smallest = 0;
-				ticker.tick();
-				
-				
-				ans[i] = smallest;
-				
-			}
-			return ans;
+			return input;
 		}
 		//otherwise divide into subcollections
 		//recursively sort subcollections, merge and sort the subcollections
@@ -53,11 +42,23 @@ public class KWayMergeSort {
 							ticker.tick();
 							//recursively calls mergesort on these smaller arrays
 							kSplit[K][j] = input[j+i];
+							//returns an integer, capture this integer
 							kwaymergesort(K, kSplit[K], ticker);
 						}
 					}
+		}
+		//compare lowest nodes and merge
+		Integer[] ans = new Integer[n];
+		//eventually assign to array containing all inputs
+		for (int i=0; i < n; ++i) {
+			int smallest = 0;
+			ticker.tick();
+			
+			
+			ans[i] = smallest;
 			
 		}
+		return ans;
 	}
 
 }

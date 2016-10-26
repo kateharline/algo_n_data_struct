@@ -1,6 +1,6 @@
 Studio 8 write up
 
-Your TA's name:
+Your TA's name:Evan
 
 
 
@@ -8,7 +8,7 @@ Students in your studio group:
 
     Name        Student ID (begins with a 4)
 	
-1.
+1.Kate Harline 		428944
 2.
 3.
 4.
@@ -17,40 +17,46 @@ Students in your studio group:
 
 
 What distribution do you see plotted (in the histogram or an XY Scatter plot) for Color hashcodes?
-
+the points are pretty much evenly distributed across the diagram
 
 
 If the distribution were not uniform, what would the plot look like?
+points would be bunched in certain areas
 
 How many Color objects are added to the set?
+3
 
 How many objects are contained in the set after all Color objects are added?
+2
 
 Why are the above two numbers different?
+because sets only store different values, the set recognizes that the two blacks are the same
 
 
 
 
 
 Are the Point objects' hash values distributed uniformly?
-
+Yes, pretty much it appears the points are evenly scattered across the graph
 
 How many Point objects are added to the set?
-
+2
 
 How many Point objects are in the set after all Point objects are added?
-
+2
 
 What is wrong with this result?
+there should only be one point added because the same points are added
 
 Based on the code you see in Point, how is equality determined between two Point objects?
-
+point equality is determined by comparing the x and y values of the points as well as the hash values of the objects
 
 Looking at the output in the console window, how does the implementation of hashCode() for Point explain the bad behavior in the set of Points?
-
+a random value is assigned to each points hash, so even points that are the same aren't assigned the same hash.
 
 How well does your hash function fare in terms of uniformly distributed hash values for the random point objects?
-
+pretty well, it may be excessively complicated though , the values are distributed fairly randomly 
+prime*value1+value2 is usually good enough (says TA)
 
 
 As a team, try out some ideas for Pancake's hashCode() implementation. Record your best idea in the studio8.txt file (here!):
@@ -59,39 +65,50 @@ As a team, try out some ideas for Pancake's hashCode() implementation. Record yo
 Based on the hashCode() implementation shown to you on the web page, answer the following questions:
 
 If two Pancake objects equal each other, will they get the same hashCode() results?
+they ought to
 
 How good of a job does the implementation do of obtaining uniform distributions of hashCode() values for two Pancake objects that do not equal each other?
-
+to quote djt, it's a disaster. you just get a bunch of lines because it's very likely different pancakes will have the same hash
 
 
 Just by inspection of the hashCode() method on the web page, state two Pancakes that are different yet have the same hashCode() value.
-
+pancake 1: radius 1 and is wheat
+pancake 2: radius 6 and is not wheat
 
 Your best hashCode() for Pancake (paste the method here please):
-
-
-
-
+	int hash = radius;
+		if (wheat){
+			hash = 31*hash + radius;
+		}
+		else{
+			hash = 17*hash + radius;
+		}
+		return hash;
 
 Do your hashCode() values for Pancake appear to be uniformly distributed?
-
+they aren't as well distributed as the point values, maybe this is because there is only one 
+int from which the hash can be derived and made different
 
 
 
 Your implementation of Syrup's hashCode() -- paste here:
-
-
-
-
-
+int hash1 = (int)(31*density)/10;
+		for(int i=0; i<brand.length(); i++){
+			char c = brand.charAt(i);
+			int cint = (int)(c);
+			hash1 += cint;
+		}
+		
+		return hash1;
 
 
 How uniformly distributed are your Syrup hashCode() values?
-
+they're pretty uniform. there is a dense block all over the place
 
 
 How uniformly distributed are your PancakeAndSyrup hashCode() values?
-
+they are moderately evenly distributed, they seem to be an average of the randomness of the 
+pancake and syrup hash distributions
 
 
 
