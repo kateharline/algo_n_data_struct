@@ -13,9 +13,6 @@ public class KWayMergeSort {
 	 */
 	public static Integer[] kwaymergesort(int K, Integer[] input, Ticker ticker) {
 		int n = input.length;
-		
-		//
-		// FIXME
 		// Following just copies the input as the answer
 		//
 		// You must replace the loop below with code that performs
@@ -26,13 +23,41 @@ public class KWayMergeSort {
 		// Use the ticker as you normally would, to account for
 		// the operations taken to perform the K-way merge sort.
 		//
-		Integer[] ans = new Integer[n];
-		for (int i=0; i < n; ++i) {
-			ans[i] = input[i];
-			ticker.tick();
-		}
 		
-		return ans;
+		//if n=1 or n=0, "trivially sort"
+		if(n == 1){
+			//compare lowest nodes and merge
+			Integer[] ans = new Integer[n];
+			//eventually assign to array containing all inputs
+			for (int i=0; i < n; ++i) {
+				int smallest = 0;
+				ticker.tick();
+				
+				
+				ans[i] = smallest;
+				
+			}
+			return ans;
+		}
+		//otherwise divide into subcollections
+		//recursively sort subcollections, merge and sort the subcollections
+		//this is a more general sort, n/k k subcollections
+		else{
+			//allocate array to keep track of split pieces
+			Integer[][] kSplit = new Integer[K][n/K];
+			ticker.tick();
+					//assign k arrays to split, keep track of where splits are with double array
+					for(int i=0; i<K; i++){
+						ticker.tick();
+						for(int j=0; j<n/K; j++){
+							ticker.tick();
+							//recursively calls mergesort on these smaller arrays
+							kSplit[K][j] = input[j+i];
+							kwaymergesort(K, kSplit[K], ticker);
+						}
+					}
+			
+		}
 	}
 
 }
