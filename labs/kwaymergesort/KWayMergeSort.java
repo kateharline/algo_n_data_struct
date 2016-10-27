@@ -64,16 +64,19 @@ public class KWayMergeSort {
 						int amove = 0;
 						int bmove = 0;
 						//find the pair elements and compare
-						if(kSplit[i][amove] <= kSplit[i+2][bmove]){
-							ticker.tick();
-							ans[i] = kSplit[i][amove];
-							++amove;
+						if(amove<n && bmove<n){
+							if(kSplit[i][amove] <= kSplit[i+2][bmove]){
+								ticker.tick();
+								ans[i] = kSplit[i][amove];
+								++amove;
+							}
+							if(kSplit[i][amove] > kSplit[i+2][bmove]){
+								ticker.tick();
+								ans[i] =kSplit[n/2+1][bmove];
+								++bmove;
+							}
 						}
-						else{
-							ticker.tick();
-							ans[i] =kSplit[n/2+1][bmove];
-							++bmove;
-						}
+						
 					}
 					return ans;
 		}
