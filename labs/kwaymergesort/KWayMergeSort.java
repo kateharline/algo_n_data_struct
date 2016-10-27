@@ -13,6 +13,9 @@ public class KWayMergeSort {
 	 */
 	public static Integer[] kwaymergesort(int K, Integer[] input, Ticker ticker) {
 		int n = input.length;
+		Integer[][] kSplit = new Integer[K][n/K];
+		
+
 		// Following just copies the input as the answer
 		//
 		// You must replace the loop below with code that performs
@@ -26,39 +29,56 @@ public class KWayMergeSort {
 		
 		//if n=1 or n=0, "trivially sort"
 		if(n == 1){
-			return input;
+			Integer[] ans = new Integer[n*2];
+			//merge karrays back together
+			//go through the karrays that exist
+			for(int i=0; i<n*2; i=i+2){
+				//find the pair elements and compare
+				if(kSplit[i][i] < kSplit[i+1][i]){
+					ans[i] = kSplit[i][i];
+				}
+				else{
+					ans[i] =kSplit[i+1][i];
+					ans[i+1]=kSplit[i][i];
+				}
+			}
+			
 		}
 		//otherwise divide into subcollections
 		//recursively sort subcollections, merge and sort the subcollections
 		//this is a more general sort, n/k k subcollections
 		else{
+			System.out.println("hello world");
 			//allocate array to keep track of split pieces
-			Integer[][] kSplit = new Integer[K][n/K];
+	
 			ticker.tick();
 					//assign k arrays to split, keep track of where splits are with double array
 					for(int i=0; i<K; i++){
 						ticker.tick();
 						for(int j=0; j<n/K; j++){
 							ticker.tick();
+							System.out.println("this is the input " + input[j+(i*n/K)]);
+							//System.out.println(j+(i*n/K));
 							//recursively calls mergesort on these smaller arrays
-							kSplit[K][j] = input[j+i];
+							kSplit[i][j] = input[j+(i*n/K)];
 							//returns an integer, capture this integer
-							kwaymergesort(K, kSplit[K], ticker);
+							System.out.println(""+kSplit[i].length);
 						}
+						//recursively call splitting
+						kwaymergesort(K, kSplit[i], ticker);
 					}
 		}
 		//compare lowest nodes and merge
-		Integer[] ans = new Integer[n];
+		
 		//eventually assign to array containing all inputs
-		for (int i=0; i < n; ++i) {
-			int smallest = 0;
-			ticker.tick();
-			
-			
-			ans[i] = smallest;
-			
-		}
 		return ans;
 	}
-
+	
+//	public static Integer[] merge(Integer[] input1, Integer[] input2, int K, Ticker ticker){
+//		Integer[] ans = new Integer[2*input1.length];
+//		
+//		
+//		
+//		return ans;
+//	}
 }
