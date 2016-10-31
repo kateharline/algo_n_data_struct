@@ -31,7 +31,6 @@ public class KWayMergeSort {
 				ticker.tick();
 				for(int j=0; j<n/K; j++){
 					ticker.tick();
-					System.out.println("this is the input " + input[j+(i*n/K)]);
 					kSplit[i][j] = input[j+(i*n/K)];
 					//returns an integer, capture this integer
 				}
@@ -40,8 +39,8 @@ public class KWayMergeSort {
 				kwaymergesort(K, kSplit[i], ticker);
 			}
 			//merge the arrays together as long as they aren't the last two arrays
-			Integer[][] merges = new Integer[K/2][n];
-			if(kSplit[0].length < n/2){
+			Integer[][] merges = new Integer[kSplit.length/2][n*2];
+			while(merges.length > K){
 				merges = merge(kSplit, ticker, K);
 			}
 			//conduct final merge on the last two split arrays
