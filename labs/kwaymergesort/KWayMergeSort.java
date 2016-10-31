@@ -32,18 +32,20 @@ public class KWayMergeSort {
 						for(int j=0; j<n/K; j++){
 							ticker.tick();
 							System.out.println("this is the input " + input[j+(i*n/K)]);
-							ticker.tick();
 							kSplit[i][j] = input[j+(i*n/K)];
 							//returns an integer, capture this integer
-							System.out.println(""+kSplit[i].length);
 						}
 						ticker.tick();
 						//recursively calls mergesort on these smaller arrays
 						kwaymergesort(K, kSplit[i], ticker);
 					}
-					Integer[][] kmerges = merge(kSplit, ticker, K);
+					//merge the arrays together as long as they aren't the last two arrays
+					while(kSplit[0].length < n*2){
+						kSplit = merge(kSplit, ticker, K);
+					}
+					
 					//conduct final merge on the last two split arrays
-					Integer[] kmerged = smallMerge(kmerges[0], kmerges[1], ticker);
+					Integer[] kmerged = smallMerge(kSplit[0], kSplit[1], ticker);
 					return kmerged;
 		}
 		//compare lowest nodes and merge
@@ -53,8 +55,8 @@ public class KWayMergeSort {
 	public static Integer[][] merge(Integer[][] ksplit, Ticker ticker, int K){
 		int rowLength = ksplit[0].length;
 		Integer[][] kmerged = new Integer[K/2][rowLength*2];
-		for(int i=0; i<K/2; i++){
-			kmerged[i] = smallMerge(ksplit[i], ksplit[i+2], ticker);
+		for(int i=0; i<K/2; i=i+2){
+			kmerged[i] = smallMerge(ksplit[i], ksplit[i+1], ticker);
 		}
 		return kmerged;
 	}
@@ -68,7 +70,7 @@ public class KWayMergeSort {
 			ticker.tick();
 			int amove = 0;
 			int bmove = 0;
-			//find the pair elements and compare
+			//compare elements if neither index is null
 			if(amove<n && bmove<n){
 				if(input1[amove] <= input2[bmove]){
 					ticker.tick();
