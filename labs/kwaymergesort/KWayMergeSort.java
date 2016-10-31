@@ -15,6 +15,7 @@ public class KWayMergeSort {
 		int n = input.length;
 		//allocate array to keep track of split pieces
 		ticker.tick(n);
+		int sortLength = 0;
 		//if n=1 or n=0, "trivially sort"
 		if(n == 1){
 			ticker.tick();
@@ -36,14 +37,15 @@ public class KWayMergeSort {
 				}
 				ticker.tick();
 				//recursively calls mergesort on these smaller arrays
-				kwaymergesort(K, kSplit[i], ticker);
+				Integer[] sorted = kwaymergesort(K, kSplit[i], ticker);
+				sortLength = sorted.length;
+				
 			}
 			//merge the arrays together as long as they aren't the last two arrays
 			int kRowMergeNum = kSplit.length/2;
 			Integer[][] merges = new Integer[kRowMergeNum][n*2];
-			while(kRowMergeNum > 4){
+			while(sortLength < n/2 ){
 				merges = merge(kSplit, ticker, kRowMergeNum);
-				System.out.println(merges[0] + "0   1"+ merges[1]);
 			}
 			//conduct final merge on the last two split arrays
 			
