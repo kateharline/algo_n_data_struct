@@ -39,9 +39,10 @@ public class KWayMergeSort {
 				kwaymergesort(K, kSplit[i], ticker);
 			}
 			//merge the arrays together as long as they aren't the last two arrays
-			Integer[][] merges = new Integer[kSplit.length/2][n*2];
+			int kRowMergeNum = kSplit.length/2;
+			Integer[][] merges = new Integer[kRowMergeNum][n*2];
 			while(merges.length > K){
-				merges = merge(kSplit, ticker, K);
+				merges = merge(kSplit, ticker, kRowMergeNum);
 			}
 			//conduct final merge on the last two split arrays
 			Integer[] kmerged = smallMerge(merges[0], merges[1], ticker);
@@ -51,9 +52,9 @@ public class KWayMergeSort {
 
 		//eventually assign to array containing all inputs
 	}
-	public static Integer[][] merge(Integer[][] ksplit, Ticker ticker, int K){
+	public static Integer[][] merge(Integer[][] ksplit, Ticker ticker, int rows){
 		int rowLength = ksplit[0].length;
-		Integer[][] kmerged = new Integer[K/2][rowLength*2];
+		Integer[][] kmerged = new Integer[rows][rowLength*2];
 		for(int i=0; i<K/2; i=i+2){
 			kmerged[i] = smallMerge(ksplit[i], ksplit[i+1], ticker);
 		}
