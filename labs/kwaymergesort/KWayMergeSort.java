@@ -3,7 +3,7 @@ package kwaymergesort;
 import timing.Ticker;
 
 public class KWayMergeSort {
-	
+
 	/**
 	 * 
 	 * @param K some positive power of 2.
@@ -26,30 +26,30 @@ public class KWayMergeSort {
 		else{
 			Integer[][] kSplit = new Integer[K][n/K];
 			ticker.tick();
-					//assign k arrays to split, keep track of where splits are with double array
-					for(int i=0; i<K; i++){
-						ticker.tick();
-						for(int j=0; j<n/K; j++){
-							ticker.tick();
-							System.out.println("this is the input " + input[j+(i*n/K)]);
-							kSplit[i][j] = input[j+(i*n/K)];
-							//returns an integer, capture this integer
-						}
-						ticker.tick();
-						//recursively calls mergesort on these smaller arrays
-						kwaymergesort(K, kSplit[i], ticker);
-					}
-					//merge the arrays together as long as they aren't the last two arrays
-					while(kSplit[0].length < n*2){
-						kSplit = merge(kSplit, ticker, K);
-					}
-					
-					//conduct final merge on the last two split arrays
-					Integer[] kmerged = smallMerge(kSplit[0], kSplit[1], ticker);
-					return kmerged;
+			//assign k arrays to split, keep track of where splits are with double array
+			for(int i=0; i<K; i++){
+				ticker.tick();
+				for(int j=0; j<n/K; j++){
+					ticker.tick();
+					System.out.println("this is the input " + input[j+(i*n/K)]);
+					kSplit[i][j] = input[j+(i*n/K)];
+					//returns an integer, capture this integer
+				}
+				ticker.tick();
+				//recursively calls mergesort on these smaller arrays
+				kwaymergesort(K, kSplit[i], ticker);
+			}
+			//merge the arrays together as long as they aren't the last two arrays
+			Integer[][] merges = new Integer[K/2][n];
+			if(kSplit[0].length < n/2){
+				merges = merge(kSplit, ticker, K);
+			}
+			//conduct final merge on the last two split arrays
+			Integer[] kmerged = smallMerge(merges[0], merges[1], ticker);
+			return kmerged;
 		}
 		//compare lowest nodes and merge
-		
+
 		//eventually assign to array containing all inputs
 	}
 	public static Integer[][] merge(Integer[][] ksplit, Ticker ticker, int K){
@@ -60,7 +60,7 @@ public class KWayMergeSort {
 		}
 		return kmerged;
 	}
-	
+
 	public static Integer[] smallMerge(Integer[] input1, Integer[] input2, Ticker ticker){
 		int n = input1.length;
 		Integer[] ans = new Integer[n*2];
