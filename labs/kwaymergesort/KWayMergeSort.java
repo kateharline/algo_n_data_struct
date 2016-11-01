@@ -47,7 +47,7 @@ public class KWayMergeSort {
 			int kRowMergeNum = kSplit.length/2;
 			Integer[][] merges = new Integer[kRowMergeNum][n*2];
 //			while(sortLength < n/2 ){
-			merges = merge(kSplit, ticker, kRowMergeNum);
+				merges = merge(kSplit, ticker, kRowMergeNum);
 //			}
 			//conduct final merge on the last two split arrays
 			
@@ -78,6 +78,7 @@ public class KWayMergeSort {
 		//go through the karrays that exist
 		for(int i=0; i<n*2; ++i){ 
 			ticker.tick();
+			
 			//compare elements if neither index is null
 			if(amove<n && bmove<n){
 				if(input1[amove] <= input2[bmove]){
