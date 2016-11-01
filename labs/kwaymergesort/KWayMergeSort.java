@@ -45,18 +45,14 @@ public class KWayMergeSort {
 			}
 			//merge the arrays together as long as they aren't the last two arrays
 			int kRowMergeNum = kSplit.length/2;
-			Integer[][] merges = new Integer[kRowMergeNum][n*2];
-//			while(sortLength < n/2 ){
-				merges = merge(kSplit, ticker, kRowMergeNum);
-//			}
+			Integer[][] merges = merge(kSplit, ticker, kRowMergeNum);
+			while(merges.length > 2 ){
+				merges = merge(merges, ticker, kRowMergeNum);
+			}
 			//conduct final merge on the last two split arrays
-			
 			Integer[] kmerged = smallMerge(merges[0], merges[1], ticker);
 			return kmerged;
 		}
-		//compare lowest nodes and merge
-
-		//eventually assign to array containing all inputs
 	}
 	public static Integer[][] merge(Integer[][] ksplit, Ticker ticker, int rows){
 		int rowLength = ksplit[0].length;
