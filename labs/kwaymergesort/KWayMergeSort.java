@@ -1,5 +1,7 @@
 package kwaymergesort;
 
+import java.util.Arrays;
+
 import timing.Ticker;
 
 public class KWayMergeSort {
@@ -44,9 +46,9 @@ public class KWayMergeSort {
 			//merge the arrays together as long as they aren't the last two arrays
 			int kRowMergeNum = kSplit.length/2;
 			Integer[][] merges = new Integer[kRowMergeNum][n*2];
-			while(sortLength < n/2 ){
-				merges = merge(kSplit, ticker, kRowMergeNum);
-			}
+//			while(sortLength < n/2 ){
+			merges = merge(kSplit, ticker, kRowMergeNum);
+//			}
 			//conduct final merge on the last two split arrays
 			
 			Integer[] kmerged = smallMerge(merges[0], merges[1], ticker);
@@ -70,12 +72,12 @@ public class KWayMergeSort {
 	public static Integer[] smallMerge(Integer[] input1, Integer[] input2, Ticker ticker){
 		int n = input1.length;
 		Integer[] ans = new Integer[n*2];
+		int amove = 0;
+		int bmove = 0;
 		//merge karrays back together
 		//go through the karrays that exist
 		for(int i=0; i<n*2; ++i){ 
 			ticker.tick();
-			int amove = 0;
-			int bmove = 0;
 			//compare elements if neither index is null
 			if(amove<n && bmove<n){
 				if(input1[amove] <= input2[bmove]){
