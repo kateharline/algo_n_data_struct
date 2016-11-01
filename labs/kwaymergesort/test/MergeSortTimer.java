@@ -13,7 +13,7 @@ public class MergeSortTimer {
 
 
 	public static void main(String[] args) {
-		runExperiment(30000);   // FIXME change to 25000 or some large number so times show up
+		runExperiment(25000);   // FIXME change to 25000 or some large number so times show up
 	}
 
 	private static void runExperiment(int factor) {
