@@ -17,7 +17,6 @@ public class KWayMergeSort {
 		int n = input.length;
 		//allocate array to keep track of split pieces
 		ticker.tick(n);
-		int sortLength = 0;
 		//if n=1 or n=0, "trivially sort"
 		if(n == 1){
 			ticker.tick();
@@ -39,42 +38,48 @@ public class KWayMergeSort {
 				}
 				ticker.tick();
 				//recursively calls mergesort on these smaller arrays
-				Integer[] sorted = kwaymergesort(K, kSplit[i], ticker);
-				sortLength = sorted.length;
+				kSplit[i] = kwaymergesort(K, kSplit[i], ticker);
 				
 			}
 			//merge the arrays together as long as they aren't the last two arrays
-			int kRowMergeNum = kSplit.length/2;
-			Integer[][] merges = merge(kSplit, ticker, kRowMergeNum);
-			while(merges.length > 2 ){
-				merges = merge(merges, ticker, kRowMergeNum);
+			while(kSplit.length > 2 ){
+				ticker.tick(2);
+				int kRowMergeNum = kSplit.length/2;
+				kSplit = merge(kSplit, ticker, kRowMergeNum);
 			}
 			//conduct final merge on the last two split arrays
-			Integer[] kmerged = smallMerge(merges[0], merges[1], ticker);
+			ticker.tick(2);
+			Integer[] kmerged = smallMerge(kSplit[0], kSplit[1], ticker);
 			return kmerged;
 		}
 	}
 	public static Integer[][] merge(Integer[][] ksplit, Ticker ticker, int rows){
+		ticker.tick();
 		int rowLength = ksplit[0].length;
+		ticker.tick(rows*rowLength*2);
 		Integer[][] kmerged = new Integer[rows][rowLength*2];
 		ticker.tick();
-		for(int i=0; i<rows; i=i+2){
+		int mover = 0;
+		for(int i=0; i<rows; i++){
 			ticker.tick();
-			kmerged[i] = smallMerge(ksplit[i], ksplit[i+1], ticker);
+			kmerged[i] = smallMerge(ksplit[mover], ksplit[mover+1], ticker);
+			mover =mover+2;
 		}
 		return kmerged;
 	}
 
 	public static Integer[] smallMerge(Integer[] input1, Integer[] input2, Ticker ticker){
+		ticker.tick();
 		int n = input1.length;
+		ticker.tick(n*2);
 		Integer[] ans = new Integer[n*2];
+		ticker.tick();
 		int amove = 0;
 		int bmove = 0;
 		//merge karrays back together
 		//go through the karrays that exist
 		for(int i=0; i<n*2; ++i){ 
 			ticker.tick();
-			
 			//compare elements if neither index is null
 			if(amove<n && bmove<n){
 				if(input1[amove] <= input2[bmove]){
@@ -89,18 +94,19 @@ public class KWayMergeSort {
 				}
 			}
 			//out of bounds input 1, fill in input 2 
-			else if(amove>n && bmove <n){
+			else if(amove>=n && bmove <n){
 				ticker.tick();
 				ans[i] =input2[bmove];
 				++bmove;
 			}
 			//out of bounds input 2, fill in input 1
-			else if(amove <n && bmove >n){
+			else if(amove <n && bmove >=n){
 				ticker.tick();
 				ans[i] = input1[amove];
 				++amove;
 			}
 		}
+		ticker.tick();
 		return ans;
 	}
 }
