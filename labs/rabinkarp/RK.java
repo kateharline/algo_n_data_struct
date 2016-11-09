@@ -39,6 +39,9 @@ public class RK {
 		//somehow calculate this
 		//h = (h×31 – 31m×c + d) mod 511
 		//have to cast math.pow to int because it returns a double (won't happen in this case)
+		int oldHash = 31*prevHash % 511;
+		int remove = ((int)Math.pow(31, window) * prevCharHash)%511;
+		int newguy = d % 511;
 		newHash =  ((31*prevHash % 511 - ((int)Math.pow(31, window) * prevCharHash)%511 + d % 511) % 511);
 		if(numCalls % 3 ==0){
 			prevHash = newHash;
