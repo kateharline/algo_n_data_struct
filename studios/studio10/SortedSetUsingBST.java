@@ -57,8 +57,8 @@ public class SortedSetUsingBST implements Algorithm<Integer[], Integer[]> {
 		ExecuteAlgorithm.timeAlgorithm(
 				"sortusingbst", 
 				"studio10.SortedSetUsingBST", 
-				new IntArrayGenerator(), 
-/*				new IntSequenceArrayGenerator(),   */
+//				new IntArrayGenerator(), 
+			new IntSequenceArrayGenerator(),   
 				sizes
 				);
 	}

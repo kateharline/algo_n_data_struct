@@ -26,6 +26,9 @@ public class BST<E> implements SortedSet<E> {
 		BST<String> lonely = new BST<String>(new Ticker());
 		lonely.add("sad");
 		lonely.add("happy");
+		lonely.add("i");
+		lonely.add("sunshine");
+
 		System.out.println("lonely tree \n" + lonely.dumpTree());
 		BST<Integer> t = new BST<Integer>(new Ticker()); // here, E is Integer
 		Random r = new Random();
@@ -66,9 +69,9 @@ public class BST<E> implements SortedSet<E> {
 		
 // Why does this code fail?
 //		
-//		BST<Color> col = new BST<Color>(new Ticker());
-//		col.add(Color.RED);
-//		col.add(Color.BLUE);
+		BST<Color> col = new BST<Color>(new Ticker());
+		col.add(Color.RED);
+		col.add(Color.BLUE);
 	}
 
 	@Override

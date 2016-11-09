@@ -8,8 +8,8 @@ Students in your studio group:
 
     Name        Student ID (begins with a 4)
 	
-1.
-2.
+1.Kate Harline		428944
+2.Meenakshi Bhatia 424620
 3.
 4.
 5.
@@ -20,26 +20,37 @@ Students in your studio group:
 Part A
 
 A1. Why do sad and happy appear as they do? Why is happy indented? What are the parent, left-child, and right-child relationships between happy and sad?
+the binary tree is sorting in alphabetical order by first letter. Happy is indented because it is below sad in the tree. sad was added first so it is added as root. happy is left child of sad because h comes before s in the alphabet
 
 Modify the code in the main method so that some string appears above sad, indented as much as happy.
 
 A2. What string did you use?
+sunshine
 
 In the numbers that follow, find the first and last entries in the tree that is shown (on its side, as discussed in lecture).
 
 A3. Is the first number always the first line to be shown in such a display?
+the first number is always at the root position which isn't the first line printed, but the least indented line
 
 A4. Is the last number always the last line to be shown?
+no, the display of the numbers depends on the values of the numbers not the order they are added
 
 A5. Why do we need addHelper?
+addhelper is private, you don't want this to be able to be accessed whenever
 
 A6. Why is it private instead of public?
+you can publicly call add, but you don't exactly know how addhelper is working for add, this increasing security
+the code is also cleaner
 
 A7. Does the code actually remove the node containing the value to be removed? If not, what is actually happening?
+no, it deletes the node from which you remove the value to fill in the node you are "removing"
+the node isn't being removed yet (likely) its value is being replaced, the same place in memory is allocated
 
 A8. Why does the code fail to execute properly?
+color doesn't implement comparable
 
 A9. Why does eclipse not report a problem when you try to create a BST of type Color?
+BST doesn't "extend" comparable so this isn't a require of its inputs. The casting occurs at the comparison step
 
 
 Part B
@@ -48,21 +59,28 @@ Part B
 SortedSetUsingBST (random input)
 
 B1. What behavior do you see in the output? You will likely have to rely on ticks rather than time, because the times are so fast.
-
+about nlgn time
 B2. What behavior did you expect to see, and why?
-
+I expected theta(nlgn) time because the search tree operates this way best case when the input is random and keeps the tree mostly balanced
+accessing elements in a tree is lgn and you do this n times
 
 SortedSetUsingBST (sorted input)
 
 B3. What behavior do you see in the output given the sorted input?
+about n^2 time, this is the worst case of the algorithm
 
 B4. What behavior did you expect to see, and why?
+n^2 because the binary tree relies on random input, if it comes in in sorted order, its essentially a list
+you have to do all checks and completely traverse the list everytime not taking advantage of the faster lgn complexity that 
+comes from adding right and left children randomly
 
 SortedSetUsingUnorderedList
 
 B5. What behavior do you see in the output when a sorted set is implemented by an unordered list? Adding to the list should be quick, so why are we seeing these times?
+n^2 because taking everything out again takes n^2 time worst case because you have to traverse the whole list
 
 B6. What behavior did you expect to see, and why?
+n^2 because this is worst case run time of an unordered list that you have to look through
 
 
 
