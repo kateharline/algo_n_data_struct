@@ -2,7 +2,8 @@ package rabinkarp;
 
 public class RK {
 	//a rk has-a window and, string of characters, start
-	public int window, numCalls, prevCharHash, prevHash;
+	public int window, numCalls, prevHash;
+	public char[] prevChars;
 	//
 	// Be sure to look at the write up for this assignment
 	//  so that you get full credit by satisfying all
@@ -20,7 +21,7 @@ public class RK {
 	public RK(int m) {
 		this.window = m;
 		numCalls = 0;
-		prevCharHash = 0;
+		prevChars = new char[m];
 		prevHash = 0;
 	}
 
@@ -30,28 +31,21 @@ public class RK {
 	 * @return the new hash, with char d added and char m-1 subtracted
 	 */
 	public int nextCh(char d) {
-		//this should call hashfor, but we don't have chars[]?
-		//must modify hashfor so time complexity desired is obtained
 		//calculate hash of the character based on hashfor calculation
-		
-	 //hash of the previous character you want to subtract
-		int newHash =0;
+		//exponentiation
+		int exp = 1;
+		for(int i=0; i<window; i++){
+			exp = (exp*31)%511;
+		}
 		//somehow calculate this
 		//h = (h×31 – 31m×c + d) mod 511
-		//have to cast math.pow to int because it returns a double (won't happen in this case)
-		int oldHash = 31*prevHash % 511;
-		int remove = ((int)Math.pow(31, window) * prevCharHash)%511;
-		int newguy = d % 511;
-		newHash =  ((31*prevHash % 511 - ((int)Math.pow(31, window) * prevCharHash)%511 + d % 511) % 511);
-		if(numCalls % 3 ==0){
-			prevHash = newHash;
-		}
+		//rolling hash is rolling assignment of prev chars to a char array that you maintain, calc oldHash and then undo/update
+		this.prevHash =  ((31*prevHash % 511 - ((exp * prevChars[numCalls % window])%511)%511 + d % 511) % 511);
+		//reassign char to its place in the 
+		prevChars[numCalls % window] = d;
 		++numCalls;
-		//record the previous hash
 		
-		//change prevChar hash only once the window has moved across the first m chars
-		prevCharHash = d % 511;
-		return newHash;
+		return prevHash;
 	}
 	
 
