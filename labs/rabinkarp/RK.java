@@ -45,6 +45,10 @@ public class RK {
 		//somehow calculate this
 		//h = (h×31 – 31m×c + d) mod 511
 		this.prevHash =  ((31*prevHash % 511 - byebye + d % 511) % 511);
+		//positive mod
+		if(prevHash < 0){
+			prevHash = prevHash +511;
+		}
 		return prevHash;
 	}
 	
