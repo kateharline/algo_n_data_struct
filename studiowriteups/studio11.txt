@@ -1,6 +1,6 @@
 Studio 11 write up
 
-Your TA's name:
+Your TA's name:Guanyu Chen
 
 
 
@@ -8,7 +8,7 @@ Students in your studio group:
 
     Name        Student ID (begins with a 4)
 	
-1.
+1.Kate Harline	428944
 2.
 3.
 4.
@@ -17,9 +17,22 @@ Students in your studio group:
 
 
 
-
-
-
-
-
-
+1. 8, 4, 12, 2, 6, 10, 14, 1, 3, 5, 7, 9, 11, 13, 15
+3. 1, 1, 1, 2, 2, 2, 2, 2, 2, 3, 3, 3, 3, 3, 3
+4. whenever there are two reds in a row, you need to rebalance to make sure the black height is correct for the
+whole tree. each child has at least 2^bh(x)-1 -1 internal nodes. when adding another node increases the 
+black height before it is necessary
+5. AVL trees have a more strict balancing protocol. If child subtrees differ by more than one, rebalancing is conducted. 
+One or more rotations may be required to rebalance the tree. Worst case lookup is better time wise, because there is a more stringent balancing parameter
+AVL trees require storing 2 bits of information whereas binary search trees only require1 per node.
+The main difference between the two trees is that AVL trees have a more stringent/lower height bound. This makes 
+for faster retrieval but slower insertion and deletion. AVL trees are also harder to implement and debug.
+Red black trees have more general applications and on average are more efficient when you way rotations and space required.
+For these reasons, it makes more sense to use red-black trees.
+6. shirt, watch, undershorts, socks
+8. shirt, tie, undershorts, pants, belt, jacket, socks, shoes, watch
+9. it is different
+10. Proof by induction:
+For a tree of height 0, there is a single node element. It is the same forward and reverse. For a tree of height 1, there are three elements
+the parent, the Left and the Right. If you go postorder, it is  left right parent. the reverse of that is parent right left.
+the right to left preorder is parent right left. if you think about it conceptually, you are going the reverse of up then  left or right then down which is the same thing. 
