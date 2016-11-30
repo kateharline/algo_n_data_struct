@@ -1,0 +1,7 @@
+The DemoCaesar class picks a random rotation value between 0 and 25, inclusively. What would happen if it chose a value outside that range? For example, 26 or 27?
+it would be mod-ed with 26 so would only yield a number 0-25
+
+You can try this by assigning rot a fixed value such as 26 and run the DemoCaesar class again.
+
+What would happen if you supplied the value 247?
+it's fine

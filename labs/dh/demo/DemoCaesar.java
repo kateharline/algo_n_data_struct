@@ -12,7 +12,7 @@ public class DemoCaesar {
 		//
 		// choose a random rotation amount
 		//
-		int rot = new Random().nextInt(26);
+		int rot = 32;
 		System.out.println("Rotation value: " + rot);
 		//
 		// Simple input string
