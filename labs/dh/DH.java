@@ -21,7 +21,8 @@ public class DH {
 	 * @return
 	 */
 	public long getPubKey() {
-		return 0; // FIXME
+		//ticker.tick(privKey.toCharArray.length());
+		return modexp.toThePower(privKey); // FIXME
 	}
 	
 	/**
@@ -31,7 +32,10 @@ public class DH {
 	 * @return
 	 */
 	public long getAgreedNum(long otherPubKey) {
-		return 0;  // FIXME
+		//ticker.tick(10);
+		MExp modexpOther = new MExp(otherPubKey, modulus);
+		//ticker.tick(privKey.toCharArray.length());
+		return modexpOther.toThePower(privKey);  // FIXME
 	}
 	
 }
